@@ -71,20 +71,20 @@ _Frontend/**this-server.json**_
 }
 ```
 _"address"_  
-If _Backend_ and _Frontend_ are on the same machine _127.0.0.1_ should be fine. Ideally this is the local ip address,
-e.g.: _192.168.178.123_. Just make sure it is the same as in the config file of _BackEnd_.
+If _Backend_ and _Frontend_ are on the same machine _127.0.0.1_ should be fine. Else it needs to be the local address of
+your backend server.
 
 _"port"_  
 _12345_ should be fine, you can change it though. Just make sure it is the same as in the config file of
 _BackEnd-_.
 
 ## How it works
-s
+soon TM
 
 ---
 
 ## **CAUTION!**
-**In case your website is public, everyone could access your website thus your devices and control them.
+**In case your website is public, everyone could access it thus your devices and control them.
 You might want to do something against that.**
 
 
@@ -114,23 +114,24 @@ _Backend/config-files/**tuya.json**_
 ```
 _"email"_  
 This is your email.  
-Somehow this does not work your tuya account is connected to a Google account etc.
+Somehow this does not work if your tuya account is connected to a Google account etc.
 
 _"password"_  
 The password to your account. Keep it strong!
 
-_"country_code"_
+_"country_code"_  
 the country code of the country your tuya account is registered in.  
 e.g.: Germany: 49
 
 ___
 #### minecraftServerController
-The minecraftServerController module controls a Minecraft server via _screen_. Currently you can only turn it on or off.
-It is planed to add backup functionality.
+The minecraftServerController module controls a Minecraft server via _screen_. Currently, you can only turn it on or off.
+It is planed to add backup functionality, and the ability to control _Minecraft-Overviewer_.
 
 ###### Requirements
 * linux packages
   * screen
+  * Minecraft server setup
   
 ####### Config
 Use the config file to set some server settings:  
@@ -159,10 +160,10 @@ _"screen_name"_
 Session name for _screen_.
 
 _"Xms"_  
-Minimal RAM usage of your Minecraft server.
+Minimal RAM allocation of your Minecraft server.
 
 _"Xmx"_  
-Maximal RAM usage of your Minecraft server.
+Maximal RAM allocation of your Minecraft server.
 
 ---
 ### Add your own modules
