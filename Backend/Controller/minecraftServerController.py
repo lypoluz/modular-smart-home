@@ -1,13 +1,9 @@
-import os
 import subprocess
-
 from smartHomeController import Controller
 import configLoader
 
 
-
 class MinecraftController(Controller):
-
     location = None
     server_name = None
     screen_name = None
@@ -35,11 +31,10 @@ class MinecraftController(Controller):
             "state": str(self.get_state())
         }]
 
-
     def write_data(self, target, data: str):
         if target == self.get_id():
             if data.lower() == "true":
-                subprocess.run(f"screen -dmS {self.screen_name} java -Xms{self.Xms} -Xmx{self.Xmx} -jar {self.location}{self.jar_file} --nogui", shell=True)
+                subprocess.run(f"cd {self.location}; screen -dmS {self.screen_name} java -Xms{self.Xms} -Xmx{self.Xmx} -jar {self.jar_file} --nogui", shell=True)
             elif data.lower() == "false":
                 subprocess.run(f'screen -S {self.screen_name} -X stuff "stop\015"', shell=True)
         return
@@ -49,9 +44,4 @@ class MinecraftController(Controller):
 
     def get_state(self):
         output = subprocess.run('screen -ls', shell=True, capture_output=True, text=True).stdout
-        print(f"{output}")
-        print(f"{self.screen_name}")
-        return ('.'+self.screen_name) in output
-
-
-
+        return ('.' + self.screen_name) in output

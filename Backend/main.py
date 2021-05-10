@@ -1,17 +1,16 @@
 from commandListener import CommandListener
-from importlib import import_module, util
+from importlib import import_module
 from smartHomeController import Controller
 import configLoader
 
-class Application:
 
+class Application:
     _controller = dict()
 
     def __init__(self):
         plugins = configLoader.load("initial-plugins")
         for plugin in plugins:
             self.__load_plugin(plugin)
-
 
     def handle_command(self, cmd):
         group, target, data = cmd["group"], cmd["target"], cmd["data"]
@@ -54,7 +53,6 @@ class Application:
         elif target == "unload_plugin":
             self.__unload_plugin(data)
 
-
     def __load_plugin(self, plugin_name):
         for group in self._controller.keys():
             if plugin_name in self._controller[group].keys():
@@ -84,8 +82,12 @@ class Application:
 
 
 if __name__ == "__main__" and True:
+    print("")
+    print("")
+
     application = Application()
 
     server = configLoader.load("this-server")
-    command_listener = CommandListener(server["address"], server["port"], application.handle_command, application.read_data)
+    command_listener = CommandListener(server["address"], server["port"], application.handle_command,
+                                       application.read_data)
     command_listener.start_listening()

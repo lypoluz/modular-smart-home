@@ -3,6 +3,7 @@ from tuyapy import TuyaApi
 from smartHomeController import Controller
 import configLoader
 
+
 # turn off:
 # device.turn_off()
 
@@ -18,7 +19,6 @@ import configLoader
 
 
 class TuyaController(Controller):
-
     tuya = None
 
     def get_controller_group(self):
@@ -28,7 +28,6 @@ class TuyaController(Controller):
         data = configLoader.load("tuya")
         self.tuya = TuyaApi()
         self.__try_connect(data["email"], data["password"], data["country_code"])
-
 
     def write_data(self, target, data):
         device = self.__get_device(target)
@@ -53,7 +52,6 @@ class TuyaController(Controller):
             })
         return devices_out
 
-
     def __get_device(self, name_or_id):
         device = self.tuya.get_device_by_id(name_or_id)
         if device:
@@ -63,7 +61,6 @@ class TuyaController(Controller):
         for device in devices:
             if device.name() == name_or_id:
                 return device
-
 
     def __try_connect(self, email, password, country_code):
         connected = False
