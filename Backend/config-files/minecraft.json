@@ -1,0 +1,8 @@
+{
+  "location": "/path/to/my/server/",
+  "jar_file": "server.jar",
+  "server_name": "My Minecraft Server",
+  "screen_name": "mc_server",
+  "Xms": "1G",
+  "Xmx": "4G"
+}
