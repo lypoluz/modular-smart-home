@@ -31,11 +31,11 @@ The contents of _Backend_ are supposed to be on the backend server. This can be 
 
 ###### Requirements
 * system
-  * python 3.9.4 (could work this earlier versions too)
+  * python 3.9.4 (could work with earlier versions too)
   * (Tested on Debian 4.19)  
 
 ###### Config
-This is the configuration for the created server socket:
+This is the configuration for the created server socket:  
 _Backend/config-files/**this-server.json**_
 ```JSON
 {
@@ -44,14 +44,14 @@ _Backend/config-files/**this-server.json**_
 }
 ```
 _"address"_  
-If _Backend_ and _FrontEnd_ are on the same machine _127.0.0.1_ should be fine. Ideally this is the local ip address,
-e.g.: _192.168.178.123_. Just make sure it is the same as in the config file of _FrontEnd_.
+If _Backend_ and _Frontend_ are on the same machine _127.0.0.1_ should be fine. Ideally this is the local ip address,
+e.g.: _192.168.178.123_. Just make sure it is the same as in the config file of _Frontend_.
 
 _"port"_  
 _12345_ should be fine, you can change it though. Just make sure it is the same as in the config file of
-_FrontEnd_.
+_Frontend_.
 
-#### _FrontEnd_-setup  
+#### _Frontend_-setup  
 The contents of _Frontend_ are supposed to be on the frontend server. This needs to be in within your web server path.
 
 ###### Requirements
@@ -71,7 +71,7 @@ _Frontend/**this-server.json**_
 }
 ```
 _"address"_  
-If _Backend_ and _FrontEnd_ are on the same machine _127.0.0.1_ should be fine. Ideally this is the local ip address,
+If _Backend_ and _Frontend_ are on the same machine _127.0.0.1_ should be fine. Ideally this is the local ip address,
 e.g.: _192.168.178.123_. Just make sure it is the same as in the config file of _BackEnd_.
 
 _"port"_  
