@@ -82,5 +82,6 @@ Minimal RAM usage of your Minecraft server.
 
 _"Xmx"_  
 Maximal RAM usage of your Minecraft server.
+
 ---
 ### Add your own modules
