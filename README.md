@@ -132,7 +132,7 @@ It is planed to add backup functionality, and the ability to control _Minecraft-
 * linux packages
   * screen
   * Minecraft server setup
-  
+
 ####### Config
 Use the config file to set some server settings:  
 _Backend/config-files/**minecraft.json**_
