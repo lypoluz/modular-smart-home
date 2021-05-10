@@ -133,7 +133,7 @@ It is planed to add backup functionality, and the ability to control _Minecraft-
   * screen
   * Minecraft server setup
 
-####### Config
+###### Config
 Use the config file to set some server settings:  
 _Backend/config-files/**minecraft.json**_
 ```JSON
