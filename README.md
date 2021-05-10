@@ -1,4 +1,5 @@
 # modular-smart-home
+## Very much  WIP
 
 This is a modular smart-home solution.
 
@@ -167,3 +168,28 @@ Maximal RAM allocation of your Minecraft server.
 
 ---
 ### Add your own modules
+soon TM
+
+Create a new .py file inside _Backend/Controller/_.  
+Use this file template:
+```PYTHON
+from smartHomeController import Controller
+
+class MyController(Controller):
+
+    def on_load(self):
+        pass
+
+    def on_unload(self):
+        pass
+
+    def get_controller_group(self):
+        pass
+
+    def read_data(self):
+        pass
+
+    def write_data(self, target, data):
+        pass
+```
+
