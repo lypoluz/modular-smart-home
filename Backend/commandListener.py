@@ -38,9 +38,12 @@ class CommandListener:
         while self.listening:
             try:
                 c, addr = self.socket.accept()
-                data = c.recv(1024)
+                data = c.recv(2048)
                 if data:
                     data = json.loads(data.decode())
+                    print(f"Connection: {addr}")
+                    print(data)
+                    print("----------")
                     if data["mode"] == "write":
                         Thread(target=self.write_function, args=(data,)).start()
                         c.close()
