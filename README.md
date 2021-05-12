@@ -16,6 +16,7 @@ This is a modular smart-home solution.
 
 ## Future features:
 * smart-home-solution
+  * auto page update
   * time dependent actions
 * example modules
   * boot/shutdown control of Windows/Linux machines
@@ -97,7 +98,8 @@ soon TM
 
 ## **CAUTION!**
 **In case your website is public, everyone could access it thus your devices and control them.
-You might want to do something against that.** It is not planed to integrate such a system in this project.
+You might want to do something against that.** At this moment it is not planed to integrate something to address this
+issue. 
 
 
 ## Custom modules
