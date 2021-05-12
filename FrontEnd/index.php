@@ -6,11 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Server Control</title>
     <link rel="stylesheet" href="main.css">
-    <script defer src="functions.js"></script>
+    <script defer src="msh-api.js"></script>
+    <script defer src="msh-buildSite.js"></script>
 </head>
 <body>
 
-<?php
+<?php ?>
+<!--?php
 function parseBool($boo) {
     if(gettype($boo) == gettype(true))
         return $boo;
@@ -45,7 +47,7 @@ foreach (array_keys($json_in) as $group) {
     }
 }
 
-?>
+?-->
 
 
 </body>
