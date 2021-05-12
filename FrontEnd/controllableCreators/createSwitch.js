@@ -1,4 +1,4 @@
-function createSwitch(parentElement, name, state, group, target) {
+function createSwitch(name, state, group, target) {
     let switchContainer = document.createElement("div");
     switchContainer.classList.add("switchContainer");
     switchContainer.id = target;

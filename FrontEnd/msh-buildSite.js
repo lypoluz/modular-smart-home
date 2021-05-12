@@ -25,11 +25,11 @@ function buildSite(site_json) {
         let controllables = document.createElement("div");
         for (let controllable of site_json[group]) {
             controllables.append(window["create"+firstLetterCapitalize(controllable.type)](
-                controllables,
                 controllable.name,
                 controllable.state,
                 group,
-                controllable.id));
+                controllable.id
+            ));
         }
         newGroup.append(controllables);
         parent_element.append(newGroup);
