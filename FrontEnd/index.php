@@ -47,7 +47,7 @@ foreach (array_keys($json_in) as $group) {
     }
 }
 
-?-->
+?>
 
 
 </body>
