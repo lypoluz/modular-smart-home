@@ -1,3 +1,4 @@
+import datetime
 import socket
 import json
 import time
@@ -41,7 +42,8 @@ class CommandListener:
                 data = c.recv(2048)
                 if data:
                     data = json.loads(data.decode())
-                    print(f"Connection: {addr}")
+                    t = datetime.datetime.now()
+                    print(f"Connection: {addr}\t {t.strftime('%Y-%m-%d')}\t {t.strftime('%H:%M:%S')}")
                     print(data)
                     print("----------")
                     if data["mode"] == "write":

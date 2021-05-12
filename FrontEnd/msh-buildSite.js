@@ -1,45 +1,37 @@
-function createSwitch(parentElement, name, state, group, target) {
-    let switchContainer = document.createElement("div");
-    switchContainer.class = "switchContainer";
 
-    let nameElement = document.createElement("h3");
-    nameElement.innerText = name;
 
-    let labelElement = document.createElement("label");
-    labelElement.class = "toggle";
+function firstLetterCapitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
-    let inputElement = document.createElement("input");
-    inputElement.class = "checkbox";
-    inputElement.name = "checkbox";
-    inputElement.type = "checkbox";
-    inputElement.setAttribute("onchange", "writeTargetData(\""+ group + "\", \"" + target + "\", this.checked)");
-    inputElement.checked = state;
-
-    let sliderElement = document.createElement("span");
-    sliderElement.class = "slider round";
-
-    switchContainer.append(nameElement);
-    labelElement.append(inputElement);
-    labelElement.append(sliderElement);
-    switchContainer.append(labelElement);
-    parentElement.append(switchContainer);
+function makeGroupReadable(group) {
+    group = group.replace("_", " ")
+    group = firstLetterCapitalize(group)
+    return group;
 }
 
 function buildSite(site_json) {
     let parent_element = document.body;
     for (let group in site_json) {
         let newGroup = document.createElement("div");
-        newGroup.class = "groupContainer";
+        newGroup.classList.add("groupContainer");
         newGroup.id = group;
+
+        let groupHeader = document.createElement("h4");
+        groupHeader.classList.add("groupHeader");
+        groupHeader.innerText = makeGroupReadable(group);
+        newGroup.append(groupHeader)
+
+        let controllables = document.createElement("div");
         for (let controllable of site_json[group]) {
-            let newControllable = document.createElement("div");
-            newControllable.classname = "controllableContainer";
-            newControllable.id = controllable.type;
-            if(controllable.type == "switch") {
-                createSwitch(newControllable, controllable.name, controllable.state, group, controllable.id);
-            }
-            newGroup.append(newControllable);
+            controllables.append(window["create"+firstLetterCapitalize(controllable.type)](
+                controllables,
+                controllable.name,
+                controllable.state,
+                group,
+                controllable.id));
         }
+        newGroup.append(controllables);
         parent_element.append(newGroup);
     }
 }
