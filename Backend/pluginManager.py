@@ -1,7 +1,6 @@
 import json
 from socket import socket, AF_INET, SOCK_STREAM
 import sys
-from main import Application
 import configLoader
 
 
@@ -14,13 +13,15 @@ def establish_socket():
 
 def load_plugin(plugin_name):
     sock = establish_socket()
-    sock.send(json.dumps({"mode": "write", "group": "application", "target": "load_plugin", "data": plugin_name}).encode())
+    sock.send(
+        json.dumps({"mode": "write", "group": "application", "target": "load_plugin", "data": plugin_name}).encode())
     sock.close()
 
 
 def unload_plugin(plugin_name):
     sock = establish_socket()
-    sock.send(json.dumps({"mode": "write", "group": "application", "target": "unload_plugin", "data": plugin_name}).encode())
+    sock.send(
+        json.dumps({"mode": "write", "group": "application", "target": "unload_plugin", "data": plugin_name}).encode())
     sock.close()
 
 
@@ -39,7 +40,6 @@ if __name__ == '__main__':
 
     mode = args[0]
     plugins = args[1:]
-
 
     if mode == "load":
         for plugin in plugins:

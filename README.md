@@ -1,5 +1,4 @@
 # modular-smart-home
-## Very much  WIP
 
 This is a modular smart-home solution.
 
@@ -9,17 +8,19 @@ This is a modular smart-home solution.
 * different _things_ are being loaded in dynamically
 * Add your own python modules to add functionality
 * Includes example modules
-  - 'tuyaController' controls tuya-switches
-  - 'minecraftServerController' starts and stops a MinecraftServer
+  - 'tuyaController' Controls tuya-switches
+  - 'minecraftServerController' Starts and stops a Minecraft server
+* Add html designs in javascript to complement your own modules
+* Includes html modules
+  - 'createSwitch' A checkbox with some css and a header
 
 ## Future features:
 * smart-home-solution
-  * modular system for custom html designs
-  * html buttons
   * time dependent actions
 * example modules
-  * boot / shutdown control of Windows / Linux machines
+  * boot/shutdown control of Windows/Linux machines
   * more functionalities to control a minecraft server
+  * RGB light controller
 
 ---
 
@@ -28,11 +29,21 @@ This solution is designed to run on two machines (web server and backend server)
 machine.
 
 #### _Backend_-setup  
-The contents of _Backend_ are supposed to be on the backend server. This can be anywhere in the file system.
+The contents of _Backend_ are supposed to be on the backend server. This can be anywhere in the file system.  
+First set up a virtual environment in you _"Backend"_ directory and load it:  
+```python -m venv ./venv```  
+```source ./venv/bin/activate```
+
+To start the backend listener run:  
+```python main.py```
+
+I would recommend starting it in a _screen_ session though. Run:  
+```screen -S msh_App python main.py```  
 
 ###### Requirements
 * system
   * python 3.9.4 (could work with earlier versions too)
+  * (Some example modules have additional requirements)
   * (Tested on Debian 4.19)  
 
 ###### Config
@@ -61,10 +72,10 @@ The contents of _Frontend_ are supposed to be on the frontend server. This needs
   * php
   * local file read access
   * (Tested on Raspbian 4.19)
-  
+
 ###### Config
 This is the configuration for the created server socket:
-_Frontend/**this-server.json**_
+_Frontend/**Controller-Server.json**_
 ```JSON
 {
 "address": "127.0.0.1",
@@ -77,7 +88,7 @@ your backend server.
 
 _"port"_  
 _12345_ should be fine, you can change it though. Just make sure it is the same as in the config file of
-_BackEnd-_.
+_BackEnd_.
 
 ## How it works
 soon TM
@@ -86,7 +97,7 @@ soon TM
 
 ## **CAUTION!**
 **In case your website is public, everyone could access it thus your devices and control them.
-You might want to do something against that.**
+You might want to do something against that.** It is not planed to integrate such a system in this project.
 
 
 ## Custom modules
@@ -168,10 +179,11 @@ Maximal RAM allocation of your Minecraft server.
 
 ---
 ### Add your own modules
-soon TM
 
+###### Creating a module
 Create a new .py file inside _Backend/Controller/_.  
-Use this file template:
+Your Controller needs to inherit from the 'Controller' class
+You can use this file template:
 ```PYTHON
 from smartHomeController import Controller
 
@@ -193,3 +205,122 @@ class MyController(Controller):
         pass
 ```
 
+_"on_load()"_ [Optional]  
+Gets called when your module gets loaded.
+
+_"on_unload()"_  [Optional]  
+Gets called when your module gets unloaded.
+
+_"get_controller_group()"_ : str  
+You are required to return a string with the group your controller belongs to.
+
+_"read_data()"_ : list  
+Here you return a list with all the things you are controlling. The items in the list should be dicts representing the
+data of your controllables. Each controllable is required to have the following keys: "id", "type", "name", "state". 
+Within "state" you have the data to represent everything that can change in the controllable.
+
+_"write_data(target, data)"_  
+:_"target"_ is the "id" of a controllable.  
+:_"data"_ is e.g. a boolean if type is a switch, it is type dependent. You decide what to do with it!
+
+###### Loading/Unloading a module
+To load/unload your module run  
+```python pluginManager.py [load|unload] [plugin_name]...```  
+in the _"Backend"_ directory.
+ 
+If you want your module to get loaded when you start main.py, you need to add the file of your module (without ".py")
+into _config-files/**initial-plugins.json**_.
+```JSON
+[
+  "tuyaController",
+  "minecraftServerController",
+  "yourModule_fileName"
+]
+```
+
+###### ConfigLoader
+In case you want to load and store config files in your modules you can use the included ConfigLoader module. See this
+example:
+```PYTHON
+import configLoader
+
+# load all the data
+my_stored_data = configLoader.load("myConfigFile")
+
+# load one attribute  
+my_stored_attribute = configLoader.load_attribute("myConfigFile", "myStoredAttribute") # if the stored data is a dict
+my_stored_list_item4 = configLoader.load_attribute("myConfigFile", 4) # if the stored data is a list
+
+# store/overwrite all the data
+configLoader.store("myConfigFile", my_stored_data)
+
+# store/overwrite one attribute  
+configLoader.store_attribute("myConfigFile", "myStoredAttribute", my_stored_attribute) # if the stored data is a dict
+configLoader.store_attribute("myConfigFile", 4, my_stored_list_item4) # if the stored data is a list
+```
+
+---
+### Add your own types (HTML designs)
+
+###### Existing types
+_Switch_  
+Switch something on or off.
+
+###### Creating a type
+Sadly this process is quite unintuitive and done in javascript...  
+
+Add the file inside _Frontend/controllableCreators/**createMyType.json**_
+Here is a _switch_ example, which is the same as the provided switch:
+```JAVASCRIPT
+function createMyType(name, state, group, target) {
+    // create a container to hold the all the other elements
+    let switchContainer = document.createElement("div");  
+    switchContainer.classList.add("mySwitchContainer");
+    switchContainer.id = target;
+
+    let nameElement = document.createElement("h3"); 
+    nameElement.innerText = name;
+
+    let labelElement = document.createElement("label");
+    labelElement.classList.add("toggle");
+
+    let inputElement = document.createElement("input");
+    inputElement.classList.add("checkbox");
+    inputElement.name = "checkbox";
+    inputElement.type = "checkbox";
+    // "writeTargetData" is super important, this sends data to the backend. It takes 3 parameters:
+    // "group" (the group it belongs to), "target" (target controllable), "data" (Here just whether it is checked) 
+    inputElement.setAttribute("onchange", "writeTargetData(\""+ group + "\", \"" + target + "\", this.checked)");
+    // in case of type === "switch", state is just a bool
+    inputElement.checked = state; 
+
+    let sliderElement = document.createElement("span");
+    sliderElement.classList.add("slider");
+    sliderElement.classList.add("round");
+
+    switchContainer.append(nameElement);
+    labelElement.append(inputElement);
+    labelElement.append(sliderElement);
+    switchContainer.append(labelElement);
+    // return the created container. Don't worry about appending it to the rest of the document.
+    return switchContainer; 
+}
+```
+The name of the function is actually important!  
+It needs to start with "create", and the next letter needs to be capitalized. Everything after "create" is the name of
+your type. It is mandatory that this is the same as the "type" attribute in your python module.
+
+###### Register your type
+Add a _script_ tag in index.html within _head_. You can also add a _link_ to the stylesheet there.
+```HTML
+<!-- Custom types -->
+<script defer src="controllableCreators/createSwitch.js"></script>
+<link rel="stylesheet" href="controllableCreators/createSwitch.css">
+
+<script defer src="controllableCreators/createMyType.js"></script>
+<link rel="stylesheet" href="controllableCreators/createMyType.css">
+```
+
+---
+### Contact me for support
+dominik.potulski@gmail.com
